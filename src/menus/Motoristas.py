@@ -66,35 +66,65 @@ def listar_motoristas():
 
 def modificar_motorista():
     try:
+        # Solicitar o ID do motorista que deseja modificar
         id_motorista = int(input("Digite o ID do motorista que deseja modificar: "))
-        motorista = obter_dados_motorista(id_motorista)
 
-        if motorista:
-            print("Dados atuais do motorista:")
-            for nome_coluna, valor in zip(
-                ["ID_MOTORISTA", "NM_MOTORISTA", "NM_SOBRENOME", "NMR_CPF", "NMR_RG", "NMR_CNH",
-                 "DT_NASCIMENTO", "NMR_TELEFONE", "NMR_CELULAR", "END_EMAIL", "URL_FOTO"], motorista):
-                print(f"{nome_coluna}: {valor}")
+        # Solicitar novas informações do motorista
+        nm_motorista = input("Digite o novo nome do motorista: ")
+        nm_sobrenome = input("Digite o novo sobrenome do motorista: ")
+        nmr_cpf = input("Digite o novo CPF do motorista: ")
+        nmr_rg = input("Digite o novo RG do motorista: ")
+        nmr_cnh = input("Digite o novo CNH do motorista: ")
+        dt_nascimento = input("Digite a nova data de nascimento do motorista (YYYY-MM-DD): ")
+        nmr_telefone = input("Digite o novo telefone do motorista: ")
+        nmr_celular = input("Digite o novo celular do motorista: ")
+        end_email = input("Digite o novo email do motorista: ")
+        url_foto = input("Digite a nova URL da foto do motorista: ")
 
-            # Solicitar informações atualizadas do motorista
-            nm_motorista = input("Digite o novo nome do motorista: ")
-            nm_sobrenome = input("Digite o novo sobrenome do motorista: ")
-            # Adicione aqui os inputs para outras colunas que deseja modificar
+        data_atual = datetime.now().strftime('%Y-%m-%d')
 
-            # Montar e executar a query de modificação
-            query_modificar_motorista = f"""
-                UPDATE T_ACG_MOTORISTAS
-                SET NM_MOTORISTA = '{nm_motorista}', NM_SOBRENOME = '{nm_sobrenome}'
-                -- Adicione outras colunas e valores conforme necessário
-                WHERE ID_MOTORISTA = {id_motorista}
-            """
-            executar_query(query_modificar_motorista)
-            print("Motorista modificado com sucesso.")
-        else:
-            print("Motorista não encontrado.")
+        # Criar a query de modificação
+        query_modificar_motorista = f"""
+            UPDATE T_ACG_MOTORISTAS
+            SET NM_MOTORISTA = '{nm_motorista}',
+                NM_SOBRENOME = '{nm_sobrenome}',
+                NMR_CPF = '{nmr_cpf}',
+                NMR_RG = '{nmr_rg}',
+                NMR_CNH = '{nmr_cnh}',
+                DT_NASCIMENTO = TO_DATE('{dt_nascimento}', 'YYYY-MM-DD'),
+                NMR_TELEFONE = '{nmr_telefone}',
+                NMR_CELULAR = '{nmr_celular}',
+                END_EMAIL = '{end_email}',
+                URL_FOTO = '{url_foto}',
+                DT_ATUALIZADO = TO_DATE('{data_atual}', 'YYYY-MM-DD')
+            WHERE ID_MOTORISTA = {id_motorista}
+        """
+
+        # Executar a query de modificação
+        executar_query(query_modificar_motorista)
+
+        print("Motorista modificado com sucesso.")
 
     except Exception as ex:
         print(f"Erro ao modificar motorista: {ex}")
+ 
+def obter_dados_motorista(id_motorista):
+    try:
+        query_obter_motorista = f"""
+            SELECT ID_MOTORISTA, NM_MOTORISTA, NM_SOBRENOME, NMR_CPF, NMR_RG, NMR_CNH,
+                   DT_NASCIMENTO, NMR_TELEFONE, NMR_CELULAR, END_EMAIL, URL_FOTO
+            FROM T_ACG_MOTORISTAS
+            WHERE ID_MOTORISTA = {id_motorista} AND DT_DELETADO IS NULL
+        """
+        motorista = executar_select(query_obter_motorista)
+
+        if motorista:
+            return motorista[0]  # Retorna a primeira linha, que deve ser a única
+
+    except Exception as ex:
+        print(f"Erro ao obter dados do motorista: {ex}")
+
+    return None  # Retorna None se houver um erro ou se o motorista não for encontrado
 
 def deletar_motorista():
     try:
