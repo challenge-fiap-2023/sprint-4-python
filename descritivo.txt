@@ -1,0 +1,31 @@
+O sistema consiste em um menu principal que oferece opções para lidar com três entidades principais: clientes, guinchos e motoristas. Cada uma dessas entidades possui suas próprias operações específicas, como adicionar, modificar, listar e deletar. O menu principal também oferece a opção de sair do sistema.
+
+Estrutura do Sistema:
+
+1. Clientes:
+   - Adicionar cliente
+   - Modificar dados do cliente
+   - Listar clientes
+   - Deletar cliente
+
+2. Guinchos:
+   - Adicionar guincho
+   - Modificar dados do guincho
+   - Listar guinchos
+   - Deletar guincho
+
+3. Motoristas:
+   - Adicionar motorista
+   - Modificar dados do motorista
+   - Listar motoristas
+   - Deletar motorista
+
+4. Sair do sistema:
+   - Encerra a execução do programa.
+
+Integrantes do grupo:
+Guilherme Rodrigues Araujo – RM97617 
+Isadora Tatajuba Moreira Pinto - RM552522 
+Maria Eduarda Sousa de Oliveira - RM552477 
+Matheus Ferreira de Jesus Santos - RM99514 
+Soraia Silva Petronilho - RM99410 
